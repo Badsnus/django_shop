@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <section class="start">
+        <div class="container">
+            <ul class="start_list">
+                <li class="start_item start_text">
+                    <h2 class="start_title"><p class="title">Elon shop</p>
+                        лучший
+                        магазин
+                    </h2>
+                    <p>Покупай товары только у нас</p>
+                </li>
+                <li class="start_item">
+                    <img alt="start"
+                         src="{% static  'homepage/img/[removal.ai]_tmp-635b7b6261e3c.png' %}">
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="about">
+        <div class="container">
+            <h2 class="text-center">Про нас</h2>
+            <p class="about_text text-center text-muted">Мы компания, которая
+                дает
+                возможность обычным людям покупать
+                необычные товары. На рынке мы уже не один десяток лет, так что
+                с помощью нашей продукции вы сможете получить власть
+                над всем миром. (отвечаю)
+            </p>
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-info btn-lg">
+                    Прочить подробнее
+                </button>
+
+            </div>
+        </div>
+    </section>
+    <section class="catalog">
+        <div class="container">
+            <h2 class="text-center">Наши товары</h2>
+            <div id="carouselExampleIndicators" class="carousel slide mb-3"
+                 data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators"
+                        data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators"
+                        data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators"
+                        data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <p>Tesla</p>
+                        <img src="{% static 'homepage/img/tesla-roadster.jpg' %}"
+                             class="d-block w-100" alt="..."
+                             width="">
+                    </div>
+                    <div class="carousel-item">
+                        <p>Rocket</p>
+                        <img src="{% static 'homepage/img/Omega_in_Flight-879x485.jpg' %}"
+                             class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <p>Twitter</p>
+                        <img src="{% static 'homepage/img/55959a30-88e8-11eb-9ffd-b1f7ed92391e.jpg' %}"
+                             class="d-block w-100" alt="...">
+
+                    </div>
+                </div>
+                <a class="carousel-control-prev"
+                   href="#carouselExampleIndicators" role="button"
+                   data-slide="prev">
+                    <span class="carousel-control-prev-icon"
+                          aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next"
+                   href="#carouselExampleIndicators" role="button"
+                   data-slide="next">
+                    <span class="carousel-control-next-icon"
+                          aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-info btn-lg">
+                    Каталог товаров
+                </button>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
