@@ -60,3 +60,46 @@ img {
     margin-top: 100px;
     margin-bottom: 100px;
 }
+
+.blog_start {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.blog_list {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-gap: 30px;
+    padding: 10px;
+}
+
+.card-prev {
+    height: 200px;
+}
+
+@media (max-width: 1000px) {
+    .blog_list {
+        grid-template-columns: 50% 50%;
+    }
+}
+
+@media (max-width: 600px) {
+    .blog_list {
+        grid-template-columns: 100%;
+    }
+}
+
+.post_col {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 30px;
+    padding: 10px;
+}
+@media (max-width: 800px) {
+    .post_col {
+        grid-template-columns: 100%;
+    }
+}
+.img-border {
+    border-radius: 10px;
+}

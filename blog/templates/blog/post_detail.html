@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <section class="blog_start">
+        <div class="container">
+            <ul class="post_col">
+                <li class="post_item">
+                    <h2>{{ post.name }}</h2>
+                    <p>{{ post.description }}</p>
+                    <p>
+                        Количество лайков:
+                        <span class="text-danger">{{ likes_count }}</span></p>
+                    <p class="card-text"><small
+                            class="text-muted">{{ post.created_date }}</small>
+                    </p>
+                </li>
+                <li class="post_item"><img class="card-img-top img-border"
+                                           src="
+                                 {% url 'home' %}photos/{{ post.img }}"
+                                           alt="img {{ post.pk }}"></li>
+            </ul>
+
+            <form method="post"
+                  action="{% url 'post_detail' post.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Поставить лайк
+                </button>
+            </form>
+            <form method="post"
+                  action="{% url 'post_detail' post.pk %}">
+                {% csrf_token %}
+                <label for="comment">Напиши ваш комментарий</label>
+                <input name="comment" id="comment" style="display: none"/>
+                <div class="input-group mb-3">
+                    <textarea class="form-control"
+                              oninput="document.querySelector('input#comment').value = this.value;"
+                              aria-label="comment"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Опубликовать
+                    комментарий
+                </button>
+            </form>
+            <section>
+                <div class="container py-3">
+                    <div class="row d-flex justify-content-center">
+                        <div class="w-100">
+                            <div class="card text-dark">
+                                <div class="card-body p-4">
+                                    {% if comments %}
+                                        <h4 class="mb-0">Комментарии</h4>
+                                        <p class="fw-light mb-4 pb-2">Самые
+                                            легендарные комменты</p>
+                                        {% for comment in comments %}
+                                            <div class="d-flex flex-start mt-3">
+                                                <div>
+                                                    <h6 class="fw-bold mb-1">{{ comment.user__username }}</h6>
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <p class="mb-0">
+                                                            {{ comment.created_date }}
+                                                        </p>
+                                                        <a href="#!"
+                                                           class="link-muted"><i
+                                                                class="fas fa-pencil-alt ms-2"></i></a>
+                                                        <a href="#!"
+                                                           class="link-muted"><i
+                                                                class="fas fa-redo-alt ms-2"></i></a>
+                                                        <a href="#!"
+                                                           class="link-muted"><i
+                                                                class="fas fa-heart ms-2"></i></a>
+                                                    </div>
+                                                    <p class="mb-3">
+                                                        {{ comment.text }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <hr class="my-0"/>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>Комментов пока что нет</p>
+                                    {% endif %}
+                                </div>
+
+                                <hr class="my-0"/>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <a href="{% url 'blog' %}"
+               class="btn btn-dark">Обратно ко всем записям</a>
+
+        </div>
+    </section>
+
+{% endblock %}
