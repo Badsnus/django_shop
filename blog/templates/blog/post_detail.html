@@ -20,11 +20,20 @@
                                  {% url 'home' %}photos/{{ post.img }}"
                                            alt="img {{ post.pk }}"></li>
             </ul>
-
+            {% if auth_error %}
+                <h6 class="text-danger">Чтобы выполнить это действие - вы
+                    должны быть
+                    авторизованы</h6>
+            {% endif %}
             <form method="post"
                   action="{% url 'post_detail' post.pk %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger">Поставить лайк
+                <button type="submit" class="btn btn-danger">
+                    {% if not did_like %}
+                        Поставить лайк
+                    {% else %}
+                        Убрать лайк
+                    {% endif %}
                 </button>
             </form>
             <form method="post"

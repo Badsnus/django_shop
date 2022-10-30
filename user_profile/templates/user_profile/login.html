@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- Section: Design Block -->
+    <section class="login_page text-center">
+
+        <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+        background-color: #26282B;
+        ">
+            <div class="card-body py-5 px-md-5">
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <h1>Вход в систему</h1>
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="form-group">
+                                    <div class="form-outline mb-4">
+                                        {{ field.label_tag }}
+                                        <div>{{ field }}</div>
+                                    </div>
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <div class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                            {% endfor %}
+                            <button type="submit"
+                                    class="btn btn-primary btn-block mb-4">
+                                Войти
+                            </button>
+                        </form>
+                        <div class="text-center">
+                            <p>Нет аккаунта? <a
+                                    href="{% url 'reg' %}"
+                                    class="
+                                    text-primary">Зарегистрироваться</a>
+                            </p>
+                        </div>
+
+                        {#                        <h2 class="fw-bold mb-5">Войди в аккаунт</h2>#}
+                        {#                        <form>#}
+                        {#                            {% csrf_token %}#}
+                        {#                            <div class="form-outline mb-4">#}
+                        {#                                <input type="email" id="form3Example3"#}
+                        {#                                       class="form-control"/>#}
+                        {#                                <label class="form-label" for="form3Example3">Логин</label>#}
+                        {#                            </div>#}
+                        {#                            <div class="form-outline mb-4">#}
+                        {#                                <input type="password" id="form3Example4"#}
+                        {#                                       class="form-control"/>#}
+                        {#                                <label class="form-label" for="form3Example4">Пароль</label>#}
+                        {#                            </div>#}
+                        {##}
+                        {##}
+                        {#                            <button type="submit"#}
+                        {#                                    class="btn btn-primary btn-block mb-4">#}
+                        {#                                Войти#}
+                        {#                            </button>#}
+                        {##}
+                        {#                            <div class="text-center">#}
+                        {#                                <p>Нет аккаунта? <a#}
+                        {#                                        href="{% url 'registration' %}"#}
+                        {#                                        class="text-primary">Зарегистрироваться</a>#}
+                        {#                                </p>#}
+                        {#                            </div>#}
+                        {#                        </form>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

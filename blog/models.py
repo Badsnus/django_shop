@@ -10,6 +10,9 @@ class Post(models.Model):
     published = models.BooleanField(default=True)
     likes = models.ManyToManyField(User, related_name='likes')
 
+    def did_user_like(self, user):
+        return self.likes.filter(likes__likes__username=user)
+
     def get_total_likes(self):
         return self.likes.count()
 
@@ -27,9 +30,3 @@ class Comment(models.Model):
                              on_delete=models.CASCADE)
     text = models.CharField(max_length=400)
     created_date = models.DateTimeField(auto_now_add=True)
-
-# class Like(models.Model):
-#     user = models.ManyToManyField(User, on_delete=models.CASCADE)
-#     post = models.ForeignKey(Post, related_name='likes',
-#                              on_delete=models.CASCADE)
-#     like_date = models.DateTimeField(auto_now_add=True)

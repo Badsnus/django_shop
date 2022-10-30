@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- Section: Design Block -->
+    <section class="login_page text-center">
+
+        <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+        background-color: #26282B;
+        ">
+            <div class="card-body py-5 px-md-5">
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+
+                        <form method="post"
+                              action="{% url 'reg' %}">
+                            {% csrf_token %}
+                                                        {% for field in form %}
+                                <div class="form-group">
+                                    <div class="form-outline mb-4">
+                                        {{ field.label_tag }}
+                                        <div>{{ field }}</div>
+                                    </div>
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <div class="alert bg-danger">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                            {% endfor %}
+                            <button type="submit"
+                                    class="btn btn-primary btn-block mb-4">
+                                Зарегистрироваться
+                            </button>
+                        </form>
+                        <p>Уже есть аккаунт? <a
+                                href="{% url 'login' %}"
+                                class="text-primary">Войти</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

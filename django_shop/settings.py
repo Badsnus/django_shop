@@ -105,6 +105,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = f'{BASE_DIR}/static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -113,6 +114,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = f'{BASE_DIR}/photos'
 MEDIA_URL = '/photos/'
+
+# user profile
+
+LOGIN_REDIRECT_URL = '/profile/'
 
 # LOGGING = {
 #     'version': 1,

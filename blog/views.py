@@ -23,20 +23,27 @@ class PostDetail(generic.View):
             'created_date',
             'user__username',
         ).filter(post__pk=kwargs['pk'])
+
         context = {
             'post': post,
             'comments': comments,
-            'likes_count': post.get_total_likes()
+            'likes_count': post.get_total_likes(),
+            'did_like': bool(post.did_user_like(request.user)),
+            'auth_error': request.GET.get('noauth', False)
         }
         return render(self.request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
-            return HttpResponse('no auth')
+            return redirect(f'/blog/{kwargs["pk"]}/?noauth=1', *args, **kwargs)
         text = request.POST.get('comment')
         if text is None:
             post = get_object_or_404(Post, pk=kwargs['pk'])
-            post.likes.add(request.user)
+            if post.likes.filter(likes__likes__username=request.user):
+                post.likes.remove(request.user)
+            else:
+                post.likes.add(request.user)
+
         elif text != '':
             comment = Comment.objects.filter(post=Post(pk=kwargs['pk']),
                                              user=request.user)

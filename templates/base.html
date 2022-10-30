@@ -11,7 +11,6 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'homepage/style/index.css' %}"/>
-
 </head>
 <body>
 <header>
@@ -43,9 +42,8 @@
                     <a class="nav-link text-light" href="{% url 'contacts' %}">Контакты</a>
                 </li>
             </ul>
-            <button class="btn btn-outline-success my-2 my-sm-0"
-                    type="submit">В личный кабинет
-            </button>
+            <a class="btn btn-outline-success my-2 my-sm-0"
+               href="{% url 'profile' %}">Профиль</a>
         </div>
     </nav>
 </header>
@@ -103,7 +101,7 @@
                         <a href="{% url 'blog' %}" class="text-reset">Блог</a>
                     </p>
                     <p>
-                        <a href="#!" class="text-reset">Личный кабинет</a>
+                        <a href="{% url 'profile' %}" class="text-reset">Профиль</a>
                     </p>
                 </div>
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
@@ -145,7 +143,6 @@
            href="https://elonshop.shop/">Elonshop</a>
     </div>
 </footer>
-
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

@@ -70,7 +70,6 @@ img {
     display: grid;
     grid-template-columns: 30% 30% 30%;
     grid-gap: 30px;
-    padding: 10px;
 }
 
 .card-prev {
@@ -95,11 +94,51 @@ img {
     grid-gap: 30px;
     padding: 10px;
 }
+
 @media (max-width: 800px) {
     .post_col {
         grid-template-columns: 100%;
     }
 }
+
 .img-border {
     border-radius: 10px;
+}
+
+.catalog {
+    margin-top: 100px;
+}
+
+.xd {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.oneline {
+    display: grid;
+    grid-template-columns: 60% 20% 10%;
+    grid-gap: 30px;
+}
+
+.pad {
+    padding: 10px;
+}
+
+@media (max-width: 770px) {
+    .oneline {
+        padding-right: 10px;
+        padding-left: 10px;
+        grid-template-columns: 60% 20%;
+    }
+}
+
+@media (max-width: 470px) {
+    .oneline {
+        grid-template-columns: 80%;
+    }
+}
+
+.login_page {
+    margin-top: 100px;
 }
