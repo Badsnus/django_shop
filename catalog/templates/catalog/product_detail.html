@@ -7,7 +7,8 @@
             <ul class="post_col">
                 <li class="product_item">
                     {% if auth_error %}
-                        <h6 class="text-danger">Чтобы добавить товар в избранное - вы должны быть
+                        <h6 class="text-danger">Чтобы добавить товар в
+                            избранное - вы должны быть
                             авторизованы</h6>
                     {% endif %}
                     <form method="post" class="xd"
@@ -32,9 +33,17 @@
                     </form>
 
                     <p>{{ product.description }}</p>
-                    <button type="button" class="btn btn-outline-success">
-                        Купить за {{ product.price }}$
-                    </button>
+                    {% if not in_cart %}
+                        <a class="btn btn-outline-success"
+                           href="{% url 'add_item' product.pk %}">Купить
+                            за {{ product.price }}$</a>
+                    {% else %}
+                        <a class="btn btn-outline-danger"
+                           href="{% url 'delete_item' product.pk %}"> Удалить
+                            из
+                            корзины</a>
+                    {% endif %}
+
                 </li>
                 <li class="post_item"><img class="card-img-top img-border"
                                            src="

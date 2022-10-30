@@ -118,7 +118,7 @@ MEDIA_URL = '/photos/'
 # user profile
 
 LOGIN_REDIRECT_URL = '/profile/'
-
+#
 # LOGGING = {
 #     'version': 1,
 #     'filters': {

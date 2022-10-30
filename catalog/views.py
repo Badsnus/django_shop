@@ -3,6 +3,7 @@ from django.shortcuts import redirect, HttpResponse, get_object_or_404
 from django.db.models import Q
 
 from .models import Product
+from user_profile.models import Cart
 
 
 class ProductsList(generic.ListView):
@@ -45,6 +46,9 @@ class ProductDetail(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['in_fav'] = self.object.in_favourite(self.request.user)
         context['auth_error'] = self.request.GET.get('noauth', False)
+        context['in_cart'] = Cart.objects.filter(
+            user=self.request.user,
+            items__pk=self.kwargs['pk'])
         return context
 
     def post(self, request, *args, **kwargs):
