@@ -50,7 +50,7 @@
                 </li>
                 <li class="post_item"><img class="card-img-top img-border"
                                            src="
-                                 {% url 'home' %}photos/{{ product.img }}"
+                                 {% get_media_prefix %}{{ product.img }}"
                                            alt="img {{ product.pk }}"></li>
             </ul>
             <a href="{% url 'catalog' %}"

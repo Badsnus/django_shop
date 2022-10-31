@@ -5,7 +5,7 @@ from django.contrib.auth.admin import User
 class Post(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=3000)
-    img = models.ImageField(upload_to='%Y/%m/%d/')
+    img = models.ImageField(upload_to='posts/%Y/%m/%d/')
     created_date = models.DateTimeField(auto_now_add=True)
     published = models.BooleanField(default=True)
     likes = models.ManyToManyField(User, related_name='likes')

@@ -84,7 +84,7 @@
                         <div class="card bg-dark ">
                             <img class="card-img-top card-prev"
                                  src="
-                                     {% url 'home' %}photos/{{ product.img }}"
+                                     {% get_media_prefix %}{{ product.img }}"
                                  alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title">{{ product.name }}</h5>

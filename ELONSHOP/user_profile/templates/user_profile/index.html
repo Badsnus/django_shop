@@ -33,7 +33,7 @@
                                             {% for cart_item in products %}
                                                 <div class="row align-items-center">
                                                     <div class="col-md-3">
-                                                        <img src="{% url 'home' %}photos/{{ cart_item.items__img }}"/>
+                                                        <img src="{% get_media_prefix %}{{ cart_item.items__img }}"/>
                                                     </div>
                                                     <div class="col-md-3 text-center">
                                                         <p>

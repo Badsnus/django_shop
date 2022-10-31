@@ -17,7 +17,7 @@
                 </li>
                 <li class="post_item"><img class="card-img-top img-border"
                                            src="
-                                 {% url 'home' %}photos/{{ post.img }}"
+                                 {% get_media_prefix %}{{ post.img }}"
                                            alt="img {{ post.pk }}"></li>
             </ul>
             {% if auth_error %}
