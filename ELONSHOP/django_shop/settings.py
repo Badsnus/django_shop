@@ -1,20 +1,30 @@
 import os
 
 from pathlib import Path
+from environs import Env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# read env
+env = Env()
+env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1@kqtx6i!9ma*vcq_c%sovl2=vis4b1h8$5^737l7#7b&q!3tg'
-
+SECRET_KEY = env.str('SECRET_KEY', default='NO_SECRET_KEY')
+print(SECRET_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', default='*').split(',')
+
+# telegram messages
+
+TELEGRAM_CHAT_ID = env.int('TELEGRAM_CHAT_ID', default=0)
+TELEGRAM_TOKEN = env.str('TELEGRAM_TOKEN', default='NO_TOKEN')
 
 # Application definition
 
@@ -116,34 +126,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'photo')
-MEDIA_URL = '/photos/'
+MEDIA_URL = '/photo/'
 
 # user profile
 LOGIN_REDIRECT_URL = '/profile/'
-
-# telegram messages
-
-telegram_chat_id = -1001594801076
-telegram_token = '5579677323:AAGCcT_or_mQO_E1sy-MGHPMfv2fztPMl-E'
-
-# LOGGING = {
-#     'version': 1,
-#     'filters': {
-#         'require_debug_true': {
-#             '()': 'django.utils.log.RequireDebugTrue',
-#         }
-#     },
-#     'handlers': {
-#         'console': {
-#             'level': 'DEBUG',
-#             'filters': ['require_debug_true'],
-#             'class': 'logging.StreamHandler',
-#         }
-#     },
-#     'loggers': {
-#         'django.db.backends': {
-#             'level': 'DEBUG',
-#             'handlers': ['console'],
-#         }
-#     }
-# }

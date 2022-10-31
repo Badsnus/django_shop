@@ -23,4 +23,4 @@ class MessageSender:
         self.bot.send_message(self.chat_id, text)
 
 
-bot = MessageSender(settings.telegram_chat_id, settings.telegram_token)
+bot = MessageSender(settings.TELEGRAM_CHAT_ID, settings.TELEGRAM_TOKEN)

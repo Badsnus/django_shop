@@ -1,7 +1,5 @@
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import LoginView, FormView, LogoutView
-from django.db.models import F
-from django.db import transaction
+from django.contrib.auth import authenticate, login, views
+from django.db import transaction, models
 from django.shortcuts import redirect, render, get_object_or_404, reverse
 from django.views import generic
 
@@ -38,7 +36,7 @@ class ProfilePage(generic.ListView):
         return redirect('login/')
 
 
-class ProfileLogin(LoginView):
+class ProfileLogin(views.LoginView):
     template_name = 'user_profile/login.html'
     form_class = forms.LoginForm
 
@@ -47,8 +45,14 @@ class ProfileLogin(LoginView):
             return super().get(request, *args, **kwargs)
         return redirect('/profile/')
 
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        # if user was created in admin panel we need to add cart for him
+        Cart.objects.get_or_create(user=self.request.user)
+        return redirect(self.get_success_url())
 
-class ProfileRegistration(FormView):
+
+class ProfileRegistration(views.FormView):
     form_class = forms.RegisterForm
     template_name = 'user_profile/registration.html'
 
@@ -73,7 +77,7 @@ class ProfileRegistration(FormView):
         return render(request, self.template_name, context)
 
 
-class ProfileLogout(LogoutView):
+class ProfileLogout(views.LogoutView):
     next_page = '/profile/login/'
 
 
@@ -124,8 +128,8 @@ class AddCartItem(generic.View):
         product = get_object_or_404(Product, pk=kwargs['pk'])
         cart = Cart.objects.filter(user=request.user)
         with transaction.atomic():
-            cart.update(count=F('count') + 1,
-                        price=F('price') + product.price)
+            cart.update(count=models.F('count') + 1,
+                        price=models.F('price') + product.price)
             cart = cart.get()
             cart.items.add(product)
         return redirect(f'/catalog/{kwargs["pk"]}/')
@@ -138,8 +142,8 @@ class DeleteCartItem(generic.View):
         product = get_object_or_404(Product, pk=kwargs['pk'])
         cart = Cart.objects.filter(user=request.user)
         with transaction.atomic():
-            cart.update(count=F('count') - 1,
-                        price=F('price') - product.price)
+            cart.update(count=models.F('count') - 1,
+                        price=models.F('price') - product.price)
             cart = cart.get()
             cart.items.remove(product)
         redirect_to = request.GET.get('redirect', f'/catalog/{kwargs["pk"]}/')
