@@ -61,3 +61,5 @@ Elon shop - [ССЫЛКА](http://185.195.26.199/)
 
     python manage.py runserver
 
+### Спасибо, за то, что прочитали
+
