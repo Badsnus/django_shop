@@ -2,9 +2,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, FormView, LogoutView
 from django.db.models import F
 from django.db import transaction
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404, reverse
 from django.views import generic
 
+from send_message.utils import bot
 from . import forms
 from .models import Cart, Product
 
@@ -76,8 +77,47 @@ class ProfileLogout(LogoutView):
     next_page = '/profile/login/'
 
 
-class AddCartItem(generic.View):
+class OrderView(generic.TemplateView):
+    template_name = 'user_profile/order_form.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_price'] = Cart.objects.values('price').get(
+            user=self.request.user)['price']
+        return context
+
+    def post(self, request, *args, **kwargs):
+        telegram = request.POST.get('telegram')
+        return redirect(reverse('fake_payment') + f'?telegram={telegram}')
+
+
+class FakePaymentView(generic.TemplateView):
+    template_name = 'user_profile/fake_payment.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['telegram'] = self.request.GET.get('telegram')
+        return context
+
+    def post(self, request, *args, **kwargs):
+        telegram = request.POST.get('telegram')
+        cart = Cart.objects.values('price', 'items__name',
+                                   'items__price').filter(
+            user=request.user)
+        cart = Cart.objects.prefetch_related('items').get(user=request.user)
+        bot.order(telegram, cart.price, cart.items.all())
+        cart.items.clear()
+        cart.price = 0
+        cart.count = 0
+        cart.save()
+        return redirect(reverse('success_order'))
+
+
+class SuccessOrderView(generic.TemplateView):
+    template_name = 'user_profile/success_order.html'
+
+
+class AddCartItem(generic.View):
     def get(self, request, *args, **kwargs):
         if request.user.is_anonymous:
             return redirect('/profile/login')

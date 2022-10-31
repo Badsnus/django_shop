@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <section class="profile">
+        <div class="container">
+            <h2 class="text-center">Оплатить заказ</h2>
+            <form method="post" action="{% url 'order' %}">
+                {% csrf_token %}
+                <label for="telegramInput">Telegram</label>
+                <input name="telegram" type="text" class="form-control mb-3"
+                       id="telegramInput"
+                       minlength="3"
+                       placeholder="Введите ваш телеграмм, чтобы наш менеджер выдал вам товар">
+                <a href="{% url 'profile' %}" class="btn btn-dark">Вернуться
+                    назад</a>
+                <button type="submit" class="btn btn-outline-success">
+                    Оплатить {{ total_price }}$
+                </button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

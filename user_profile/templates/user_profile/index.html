@@ -5,6 +5,7 @@
     <section class="profile">
         <div class="container">
             <h1 class="text-center">Профиль</h1>
+            <a href="{% url 'logout' %}">Выйти из аккаунта</a>
             <div class="cart">
                 <h2>Корзина</h2>
                 {% if have %}
@@ -77,10 +78,10 @@
                                     </div>
 
                                     <div class="d-flex justify-content-end">
-                                        <button type="button"
-                                                class="btn btn-outline-success btn-lg">
+                                        <a href="{% url 'order' %}"
+                                           class="btn btn-outline-success btn-lg">
                                             Оплатить
-                                        </button>
+                                        </a>
                                     </div>
 
                                 </div>
@@ -94,5 +95,5 @@
             </div>
         </div>
     </section>
-    {#    <a href="{% url 'logout' %}">Выйти</a>#}
+
 {% endblock %}

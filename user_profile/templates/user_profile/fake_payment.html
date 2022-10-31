@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <section class="profile">
+        <div class="container text-center">
+            <h2 class="text-center">Типа оплата (Нажми на кнопку я
+                оплатил)</h2>
+            <form action="{% url 'fake_payment' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="telegram"
+                       value="{{ telegram }}"/>
+                <button type="submit" class="btn btn-success">Я оплатил
+                </button>
+            </form>
+        </div>
+    </section>
+{% endblock %}
