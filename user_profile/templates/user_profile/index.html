@@ -7,7 +7,7 @@
             <h1 class="text-center">Профиль</h1>
             <div class="cart">
                 <h2>Корзина</h2>
-                {% if products %}
+                {% if have %}
                     <section class="">
                         <div class="container">
                             <div class="row d-flex justify-content-center align-items-center">
@@ -16,40 +16,58 @@
                                     <div class="card mb-4 bg-dark">
                                         <div class="card-body p-4">
                                             <div class="row align-items-center mb-3">
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     Фото
                                                 </div>
-                                                <div class="col-md-4 d-flex justify-content-center">
+                                                <div class="col-md-3 d-flex justify-content-center">
                                                     Название
                                                 </div>
-                                                <div class="col-md-4 d-flex justify-content-center">
+                                                <div class="col-md-3 d-flex justify-content-center">
                                                     Цена
+                                                </div>
+                                                <div class="col-md-3 d-flex justify-content-center">
+                                                    Удаление из корзины
                                                 </div>
                                             </div>
                                             {% for cart_item in products %}
                                                 <div class="row align-items-center">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <img src="{% url 'home' %}photos/{{ cart_item.items__img }}"/>
                                                     </div>
-                                                    <div class="col-md-4 text-center">
-                                                        <p>{{ cart_item.items__name }}</p>
+                                                    <div class="col-md-3 text-center">
+                                                        <p>
+                                                            <a href="{% url 'product_detail' cart_item.items__pk %}">{{ cart_item.items__name }}</a>
+                                                        </p>
+
                                                         <small class="text-muted">{{ cart_item.items__description|truncatechars:40 }}</small>
 
                                                     </div>
-                                                    <div class="col-md-4 d-flex justify-content-center">
+                                                    <div class="col-md-3 d-flex justify-content-center">
                                                         {{ cart_item.items__price }}$
+                                                    </div>
+                                                    <div class="col-md-3 d-flex justify-content-center">
+                                                        <a class="btn btn-outline-danger"
+                                                           href="{% url 'delete_item' cart_item.items__pk %}?redirect=profile">
+                                                            Удалить
+                                                            из
+                                                            корзины</a>
                                                     </div>
                                                 </div>
                                             {% endfor %}
                                         </div>
                                     </div>
 
-                                    <div class="card mb-5 bg-dark">
+                                    <div class="card mb-3 bg-dark">
                                         <div class="card-body p-4">
 
                                             <div class="float-end">
                                                 <p class="mb-0 me-5 d-flex align-items-center">
-                                                    <span class="small text-muted me-2 mr-3">Полная стоимость:</span>
+                                                    <span class="small text-muted me-2 mr-2">Количество товара:</span>
+                                                    <span
+                                                            class="lead fw-normal">{{ total_count }}</span>
+                                                </p>
+                                                <p class="mb-0 me-5 d-flex align-items-center">
+                                                    <span class="small text-muted me-2 mr-3">Cтоимость товара:</span>
                                                     <span
                                                             class="lead fw-normal">{{ total_price }}$</span>
                                                 </p>
@@ -60,7 +78,7 @@
 
                                     <div class="d-flex justify-content-end">
                                         <button type="button"
-                                                class="btn btn-primary btn-lg">
+                                                class="btn btn-outline-success btn-lg">
                                             Оплатить
                                         </button>
                                     </div>

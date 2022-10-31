@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, FormView, LogoutView
 from django.db.models import F
+from django.db import transaction
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import generic
 
@@ -12,24 +13,22 @@ class ProfilePage(generic.ListView):
     template_name = 'user_profile/index.html'
     extra_context = {}
 
-    #
     def get_context_data(self, *, object_list=None, **kwargs):
-        print(self.extra_context)
         self.extra_context['total_count'] = (
             self.extra_context['products'][0]['count']
         )
         self.extra_context['total_price'] = (
             self.extra_context['products'][0]['price']
         )
-
         return self.extra_context
 
     def get_queryset(self):
         products = list(Cart.objects.values(
             'items__name', 'items__description', 'items__price', 'items__img',
-            'count', 'price'
+            'items__pk', 'count', 'price'
         ).filter(user=self.request.user))
         self.extra_context['products'] = products
+        self.extra_context['have'] = products[0]['items__name']
         return products
 
     def get(self, request, *args, **kwargs):
@@ -82,13 +81,13 @@ class AddCartItem(generic.View):
     def get(self, request, *args, **kwargs):
         if request.user.is_anonymous:
             return redirect('/profile/login')
-
         product = get_object_or_404(Product, pk=kwargs['pk'])
         cart = Cart.objects.filter(user=request.user)
-        cart.update(count=F('count') + 1,
-                    price=F('price') + product.price)
-        cart = cart.get()
-        cart.items.add(product)
+        with transaction.atomic():
+            cart.update(count=F('count') + 1,
+                        price=F('price') + product.price)
+            cart = cart.get()
+            cart.items.add(product)
         return redirect(f'/catalog/{kwargs["pk"]}/')
 
 
@@ -98,8 +97,10 @@ class DeleteCartItem(generic.View):
             return redirect('/profile/login')
         product = get_object_or_404(Product, pk=kwargs['pk'])
         cart = Cart.objects.filter(user=request.user)
-        cart.update(count=F('count') - 1,
-                    price=F('price') - product.price)
-        cart = cart.get()
-        cart.items.remove(product)
-        return redirect(f'/catalog/{kwargs["pk"]}/')
+        with transaction.atomic():
+            cart.update(count=F('count') - 1,
+                        price=F('price') - product.price)
+            cart = cart.get()
+            cart.items.remove(product)
+        redirect_to = request.GET.get('redirect', f'/catalog/{kwargs["pk"]}/')
+        return redirect(redirect_to)

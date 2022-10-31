@@ -38,6 +38,9 @@
                            href="{% url 'add_item' product.pk %}">Купить
                             за {{ product.price }}$</a>
                     {% else %}
+                        <a class="btn btn-outline-success"
+                           href="{% url 'profile' %}">
+                            Перейти в корзину</a>
                         <a class="btn btn-outline-danger"
                            href="{% url 'delete_item' product.pk %}"> Удалить
                             из
