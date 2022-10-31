@@ -10,25 +10,19 @@
                 <br>Адрес - Пресненская наб., 10с1, Москва, 123317
             </p>
             <h3>Если у вас есть к нам вопрос - напишите его</h3>
-            <form>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email</label>
-                    <input type="email" class="form-control"
-                           id="exampleInputEmail1" aria-describedby="emailHelp"
-                           placeholder="Введите ваш email">
-                    <label for="telegramInput">Telegram</label>
-                    <input type="text" class="form-control"
-                           id="telegramInput" aria-describedby="emailHelp"
-                           placeholder="Введите ваш телеграмм">
-                    <small id="emailHelp" class="form-text text-muted">Напишите
-                        свой вопрос</small>
-                </div>
+            <form method="post" action="{% url 'send_message' %}">
+                {% csrf_token %}
+                <label for="telegramInput">Telegram</label>
+                <input name="telegram" type="text" class="form-control mb-3"
+                       id="telegramInput"
+                       placeholder="Введите ваш телеграмм">
+                <label for="question">Напиши ваш вопрос</label>
+                <input name="question" id="question" style="display: none"/>
                 <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Вопрос</span>
-                    </div>
-                    <textarea class="form-control"
-                              aria-label="With textarea"></textarea>
+                    <textarea minlength="20" class="form-control"
+                              oninput="document.querySelector('input#question').value = this.value;"
+                              aria-label="question"
+                              placeholder="почему вы elon shop?"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Отправить
                 </button>

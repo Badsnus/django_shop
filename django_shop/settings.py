@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'contacts.apps.ContactsConfig',
     'user_profile.apps.UserProfileConfig',
+    'send_message.apps.SendMessageConfig',
 ]
 
 MIDDLEWARE = [
@@ -116,9 +117,13 @@ MEDIA_ROOT = f'{BASE_DIR}/photos'
 MEDIA_URL = '/photos/'
 
 # user profile
-
 LOGIN_REDIRECT_URL = '/profile/'
-#
+
+# telegram messages
+
+telegram_chat_id = -1001594801076
+telegram_token = '5579677323:AAGCcT_or_mQO_E1sy-MGHPMfv2fztPMl-E'
+
 # LOGGING = {
 #     'version': 1,
 #     'filters': {
