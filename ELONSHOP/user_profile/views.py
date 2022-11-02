@@ -13,22 +13,18 @@ class ProfilePage(generic.ListView):
     extra_context = {}
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        self.extra_context['total_count'] = (
-            self.extra_context['products'][0]['count']
-        )
-        self.extra_context['total_price'] = (
-            self.extra_context['products'][0]['price']
-        )
+        self.extra_context['total_count'] = self.extra_context['cart'].count
+        self.extra_context['total_price'] = self.extra_context['cart'].price
         return self.extra_context
 
     def get_queryset(self):
-        products = list(Cart.objects.values(
-            'items__name', 'items__description', 'items__price', 'items__img',
-            'items__pk', 'count', 'price'
-        ).filter(user=self.request.user))
+        cart = Cart.objects.select_related('user').prefetch_related(
+            'items').get(user=self.request.user)
+        products = cart.items.all()
+        self.extra_context['cart'] = cart
         self.extra_context['products'] = products
-        self.extra_context['have'] = products[0]['items__name']
-        return products
+        self.extra_context['have'] = bool(products)
+        return cart
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
